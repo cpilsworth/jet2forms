@@ -1,7 +1,7 @@
 function updateBubble(input, element) {
   const step = input.step || 1;
-  const max = input.max || 0;
-  const min = input.min || 1;
+  const max = input.max || 1000;
+  const min = input.min || 0;
   const value = input.value || 1;
   const current = Math.ceil((value - min) / step);
   const total = Math.ceil((max - min) / step);
@@ -9,7 +9,7 @@ function updateBubble(input, element) {
   // during initial render the width is 0. Hence using a default here.
   const bubbleWidth = bubble.getBoundingClientRect().width || 31;
   const left = `${(current / total) * 100}% - ${(current / total) * bubbleWidth}px`;
-  bubble.innerText = `$${value}K`;
+  bubble.innerText = `$${input.value}K`;
   const steps = {
     '--total-steps': Math.ceil((max - min) / step),
     '--current-steps': Math.ceil((value - min) / step),

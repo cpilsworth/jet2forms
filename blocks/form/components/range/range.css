@@ -1,6 +1,6 @@
 
 /** styling for range */
-main .form .form-range-wrapper.decorated input[type="range"] {
+main .form .range-wrapper.decorated input[type="range"] {
     margin: unset;
     padding: unset;
     appearance: none;
@@ -10,11 +10,11 @@ main .form .form-range-wrapper.decorated input[type="range"] {
     background-image: linear-gradient(to right, var(--button-primary-color) calc(100% * var(--current-steps)/var(--total-steps)), #C5C5C5 calc(100% * var(--current-steps)/var(--total-steps)));
 }
 
-main .form .form-range-wrapper.decorated input[type="range"]:focus {
+main .form .range-wrapper.decorated input[type="range"]:focus {
     outline: none;
 }
 
-.form-range-wrapper.decorated input[type="range"]::-webkit-slider-thumb {
+.range-wrapper.decorated input[type="range"]::-webkit-slider-thumb {
     appearance: none;
     width: 25px;
     height: 25px;
@@ -25,11 +25,11 @@ main .form .form-range-wrapper.decorated input[type="range"]:focus {
     outline: 3px solid #fff;
   }
 
-.form-range-wrapper.decorated input[type="range"]:focus::-webkit-slider-thumb {
+.range-wrapper.decorated input[type="range"]:focus::-webkit-slider-thumb {
     border-color: var(--button-primary-color);
 }
 
-.form-range-wrapper.decorated .range-bubble {
+.range-wrapper.decorated .range-bubble {
     color: #17252e;
     font-size: 20px;
     line-height: 28px;
@@ -38,8 +38,8 @@ main .form .form-range-wrapper.decorated input[type="range"]:focus {
     padding-bottom: 12px;
 }
 
-.form-range-wrapper.decorated .range-min,
-.form-range-wrapper.decorated .range-max {
+.range-wrapper.decorated .range-min,
+.range-wrapper.decorated .range-max {
     font-size: 14px;
     line-height: 22px;
     color: #494f50;
@@ -47,12 +47,12 @@ main .form .form-range-wrapper.decorated input[type="range"]:focus {
     display: inline-block;
 }
 
-.form-range-wrapper.decorated .range-max {
+.range-wrapper.decorated .range-max {
     float: right;
 }
 
 
-main .form .form-drop-down-wrapper select {
+main .form .drop-down-wrapper select {
     background: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
     background-repeat: no-repeat;
     background-position-x: 98%;
