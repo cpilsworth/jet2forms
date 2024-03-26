@@ -9,7 +9,7 @@ function updateBubble(input, element) {
   // during initial render the width is 0. Hence using a default here.
   const bubbleWidth = bubble.getBoundingClientRect().width || 31;
   const left = `${(current / total) * 100}% - ${(current / total) * bubbleWidth}px`;
-  bubble.innerText = `$${input.value}K`;
+  bubble.innerText = `$${input.value}`;
   const steps = {
     '--total-steps': Math.ceil((max - min) / step),
     '--current-steps': Math.ceil((value - min) / step),
@@ -20,7 +20,7 @@ function updateBubble(input, element) {
 }
 
 // eslint-disable-next-line no-unused-vars
-export default function decorateRange(fieldDiv, field) {
+export default function decorateRange(fieldDiv, field, form) {
   const input = fieldDiv.querySelector('input');
   // modify the type in case it is not range.
   input.type = 'range';
@@ -35,8 +35,8 @@ export default function decorateRange(fieldDiv, field) {
   rangeMinEl.className = 'range-min';
   const rangeMaxEl = document.createElement('span');
   rangeMaxEl.className = 'range-max';
-  rangeMinEl.innerText = `$${input.min || 1}K`;
-  rangeMaxEl.innerText = `$${input.max}K`;
+  rangeMinEl.innerText = `$${input.min || 1}`;
+  rangeMaxEl.innerText = `$${input.max}`;
   div.appendChild(hover);
   // move the input element within the wrapper div
   div.appendChild(input);
