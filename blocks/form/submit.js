@@ -1,15 +1,19 @@
+import { DEFAULT_THANK_YOU_MESSAGE, getRouting, getSubmitBaseUrl } from './constant.js';
+
 export function submitSuccess(e, form) {
   const { payload } = e;
-  if (payload?.body?.redirectUrl) {
-    window.location.assign(encodeURI(payload.body.redirectUrl));
+  const redirectUrl = form.dataset.redirectUrl || payload?.body?.redirectUrl;
+  const thankYouMsg = form.dataset.thankYouMsg || payload?.body?.thankYouMessage;
+  if (redirectUrl) {
+    window.location.assign(encodeURI(redirectUrl));
   } else {
-    let thankYouMessage = form.querySelector('.form-message.success-message');
+    let thankYouMessage = form.parentNode.querySelector('.form-message.success-message');
     if (!thankYouMessage) {
       thankYouMessage = document.createElement('div');
       thankYouMessage.className = 'form-message success-message';
     }
-    thankYouMessage.innerHTML = payload?.body?.thankYouMessage || 'Thanks for your submission';
-    form.prepend(thankYouMessage);
+    thankYouMessage.innerHTML = thankYouMsg || DEFAULT_THANK_YOU_MESSAGE;
+    form.parentNode.insertBefore(thankYouMessage, form);
     if (thankYouMessage.scrollIntoView) {
       thankYouMessage.scrollIntoView({ behavior: 'smooth' });
     }
@@ -69,11 +73,23 @@ function constructPayload(form) {
 
 async function prepareRequest(form) {
   const { payload } = constructPayload(form);
+  const {
+    branch, site, org, tier,
+  } = getRouting();
   const headers = {
     'Content-Type': 'application/json',
+    'x-adobe-routing': `tier=${tier},bucket=${branch}--${site}--${org}`,
   };
   const body = { data: payload };
-  const url = form.dataset.submit || form.dataset.action;
+  let url;
+  let baseUrl = getSubmitBaseUrl();
+  if (!baseUrl && org && site) {
+    baseUrl = 'https://forms.adobe.com/adobe/forms/af/submit/';
+    headers['x-adobe-routing'] = `tier=${tier},bucket=${branch}--${site}--${org}`;
+    url = baseUrl + btoa(form.dataset.action);
+  } else {
+    url = form.dataset.action;
+  }
   return { headers, body, url };
 }
 

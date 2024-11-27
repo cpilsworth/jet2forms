@@ -18,11 +18,17 @@
 * the terms of the Adobe license agreement accompanying it.
 *************************************************************************/
 
+var EventSource;
+(function (EventSource) {
+    EventSource["CODE"] = "code";
+    EventSource["UI"] = "ui";
+})(EventSource || (EventSource = {}));
 class ActionImpl {
     _metadata;
     _type;
     _payload;
     _target;
+    _currentTarget;
     constructor(payload, type, _metadata) {
         this._metadata = _metadata;
         this._payload = payload;
@@ -39,6 +45,9 @@ class ActionImpl {
     }
     get target() {
         return this._target;
+    }
+    get currentTarget() {
+        return this._currentTarget;
     }
     get isCustomEvent() {
         return false;
@@ -63,6 +72,11 @@ class Change extends ActionImpl {
     }
     withAdditionalChange(change) {
         return new Change(this.payload.changes.concat(change.payload.changes), this.metadata);
+    }
+}
+class UIChange extends ActionImpl {
+    constructor(payload, dispatch = false) {
+        super(payload, 'uiChange', { dispatch });
     }
 }
 class Invalid extends ActionImpl {
@@ -126,6 +140,11 @@ class Submit extends ActionImpl {
         super(payload, 'submit', { dispatch });
     }
 }
+class Save extends ActionImpl {
+    constructor(payload, dispatch = false) {
+        super(payload, 'save', { dispatch });
+    }
+}
 class SubmitSuccess extends ActionImpl {
     constructor(payload, dispatch = false) {
         super(payload, 'submitSuccess', { dispatch });
@@ -147,10 +166,11 @@ class Reset extends ActionImpl {
     }
 }
 class FieldChanged extends ActionImpl {
-    constructor(changes, field) {
+    constructor(changes, field, eventSource = EventSource.CODE) {
         super({
             field,
-            changes
+            changes,
+            eventSource
         }, 'fieldChanged');
     }
 }
@@ -183,4 +203,4 @@ class RemoveInstance extends ActionImpl {
     }
 }
 
-export { AddInstance, AddItem, Blur, Change, Click, CustomEvent, ExecuteRule, FieldChanged, Focus, FormLoad, Initialize, Invalid, RemoveInstance, RemoveItem, Reset, Submit, SubmitError, SubmitFailure, SubmitSuccess, Valid, ValidationComplete, propertyChange };
+export { AddInstance, AddItem, Blur, Change, Click, CustomEvent, ExecuteRule, FieldChanged, Focus, FormLoad, Initialize, Invalid, RemoveInstance, RemoveItem, Reset, Save, Submit, SubmitError, SubmitFailure, SubmitSuccess, UIChange, Valid, ValidationComplete, propertyChange };

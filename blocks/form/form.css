@@ -1,12 +1,11 @@
-@import "./components/range/range.css";
 :root {
     --background-color-primary: #fff;
     --label-color: #666;
     --border-color: #818a91;
     --form-error-color: #ff5f3f;
-    --button-primary-color: var(--color-yellow);
+    --button-primary-color: #5F8DDA;
     --button-secondary-color: #666;
-    --button-primary-hover-color: var(--color-yellow);
+    --button-primary-hover-color: #035fe6;
     --form-font-size-m: 22px;
     --form-font-size-s: 18px;
     --form-font-size-xs: 16px;
@@ -38,7 +37,7 @@
     --form-fieldset-legend-font-weight: var(--form-title-font-weight);
     --form-fieldset-legend-border: none;
     --form-fieldset-legend-padding: 0;
-    --form-button-color: #000;
+    --form-button-color: var(--background-color-primary);
     --form-button-font-size: var(--form-font-size-s);
     --form-button-background-color: var(--button-primary-color);
     --form-button-background-hover-color: var(--button-primary-hover-color);
@@ -63,13 +62,17 @@
     box-sizing: border-box;
 }
 
+main .form pre {
+    display: none;
+}
+
 form output {
     display: block;
     font-weight: 700;
     font-size: 1.625rem;
 }
 
-form [data-visible="false"] {
+form:not(.edit-mode) [data-visible="false"] {
     display: none !important;
 }
 
@@ -187,7 +190,7 @@ main .form form .repeat-wrapper,
 main .form form .field-wrapper {
     margin: var(--form-field-gap);
     color: var(--form-label-color);
-    grid-column: span 6;
+    grid-column: span 12;
 }
 
 main .form form p {
@@ -269,25 +272,52 @@ main .form form .item-remove {
     padding-left: 10px;
 }
 
+main .form form .item-add {
+    overflow: unset;
+    display: flex;
+    justify-content: center;
+}
+
+main .form .file-description{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 5px;
+}
+
 main .form .file-description .file-description-name {
   cursor: pointer;
   text-decoration: underline;
+  flex: 1;
 }
 
 main .form form .item-remove span {
     display: block;
     width: 20px;
     height: 20px;
-    background: url('/icons/delete.svg') no-repeat;
+    background: url('../../icons/delete.svg') no-repeat;
 }
 
 main .file-wrapper .file-description button {
     --form-button-padding: 15px;
 
-    background: url('/icons/delete.svg') no-repeat;
-    width: unset;
-    border: unset;
+    width: 12px;
+    height: 12px;
+    border: none;
     text-align: center;
+    background: var(--border-color);
+    cursor: pointer;
+    position: relative;
+    border-radius: 3px;
+}
+
+main .file-wrapper .file-description button::after{
+    content: 'X';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: var(--background-color-primary);
+    transform: translate(-50%, -50%);
 }
 
 main .form .button-wrapper button {
@@ -417,6 +447,12 @@ main .form form .panel-wrapper{
   gap: var(--form-field-vert-gap) var(--form-field-horz-gap);
 }
 
+main .form form .repeat-wrapper{
+    display: grid;
+    grid-template-columns: repeat(var(--form-columns), minmax(0, 1fr));
+    gap: var(--form-field-vert-gap) var(--form-field-horz-gap);
+}
+
 main .form form .wizard.left .panel-wrapper{
   flex: 1;
 }
@@ -517,13 +553,16 @@ main .form form .field-wrapper.col-1 {
     grid-column: span 1;
 }
 
-main .form .form-image-wrapper  img{
+main .form .form-image-wrapper  img {
   max-width: 100%;
   height: auto;
 }
 
-main .form form .field-subscribe,
-main .form form .field-email, 
-main .form form .repeat-wrapper {
-    grid-column: span 12;
+main form .wizard > .current-wizard-step.panel-wrapper:first-of-type ~ .wizard-button-wrapper > .wizard-button-prev,
+main form .wizard > .current-wizard-step.panel-wrapper:last-of-type ~ .wizard-button-wrapper > .wizard-button-next {
+    display: none;
+}
+
+main .form form:not(.edit-mode) .captcha-wrapper{
+    display: none ;
 }
