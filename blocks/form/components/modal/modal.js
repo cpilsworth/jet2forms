@@ -1,5 +1,5 @@
 import { subscribe } from '../../rules/index.js';
-import { decorateIcons } from '../../../../scripts/aem.js';
+import { decorateIcons } from '../../../../scripts/lib-franklin.js';
 
 export class Modal {
   constructor() {
